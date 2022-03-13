@@ -221,10 +221,11 @@ Proof.
   exact H.
 Qed.
 
-
+(*O x da parte direita da expressão estão bounded em contextos diferentes, portanto
+  o coq renomea de x para x0*)
 Lemma ex11 : forall x, R x -> exists x, R x.
 Proof.
-  intros.
+  intros. (*x : X | H : R x     o x em R x é o x : X*)
   exists x.
   assumption.
 Qed.
@@ -239,37 +240,55 @@ Qed.
 
 Lemma ex12 : (exists x, ~(R x)) -> ~ (forall x, R x).
 Proof.
-  intros H H1.
-  destruct H as [x0 H0].
+  intros H H1. (*Novamente, a negação é a implicação do falso*)
+  destruct H as [x0 H0]. (*Convém dar o nome x0 para não confundir com o x em H1*)
   apply H0.
-  apply H1.
+  apply H1. (*(H1 x0)  o Coq infere que estamos a aplicar x0 a H1, podemos omitir o x0*)
 Qed.
 
 
 Lemma ex13 : (exists x, R x) -> (forall x y, R x -> W y) -> forall y, W y.
 Proof.
- intros H H1 y1.  
- destruct H as [ x1 H0].
- (* try "apply H1." to see error message *)
- apply H1 with x1 . (* apply  (H1 x1). *) 
- assumption.
+  intros H H1 y1.  
+  destruct H as [ x1 H0].
+  (* try "apply H1." to see error message *)
+  (*apply H1 nao funciona pq o Coq tem de inferir o R x *)
+  apply H1 with x1 . (* apply  (H1 x1). *) 
+  assumption.
 Qed.
 
  
 (* Exercise *)
 Lemma ex14 : (forall x, R x) \/ (forall x, W x) -> forall x, (R x) \/ (W x).
-Admitted.
+Proof.
+  intros.
+  destruct H.
+  left. apply H.
+  right. apply H.
+Qed.
 
 Variable G : X->X->Prop.
 
 (* Exercise *)
 Lemma ex15 : (exists x, exists y, (G x y)) -> exists y, exists x, (G x y).
-Admitted.
-
+Proof.
+  intros.
+  (* repeat(destruct H).*)
+  destruct H as (x0 & y0 & H) . 
+  exists y0.
+  exists x0.
+  assumption.
+Qed.
 
 (* Exercise *)
 Proposition ex16: (forall x, W x) /\ (forall x, R x) -> (forall x, W x /\ R x).
-Admitted.
+Proof.
+  intros.
+  destruct H.
+  split.
+  apply H.
+  apply H0.
+Qed.
 
 
 (* ------- Note that we can have nested sections ----------- *)

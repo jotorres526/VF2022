@@ -1,0 +1,28 @@
+O why3 é:
+- ling. lógica FOL expandida
+    - tipos indutivos
+    - polimorfismo
+    - predicados indutivos (importante)
+- ling. programação
+    - para fazer verificação de programas
+    - whyml
+        - linguagem da familia ML -> ex: ocaml
+    - verificação ao nivel do algoritmo
+- gestor de provas
+    - frontend para muitas ferramentas de prova
+
+
+prob. decidibilidade
+
+
+
+### Why3 ###
+- por convenção, lógica dentro de theory, programação em module
+- use int.Int -> no ficheiro int usar a teoria Int
+    - verificar os ficheiros no site do why3 em lib
+
+### whyml ###
+- para o for nao preciso variante para provar q o ciclo acaba, ao contrario do frama C
+    - em C o for é um while disfarçado
+
+- sorted_sub -> sorted de '0' a 'i' exclusive

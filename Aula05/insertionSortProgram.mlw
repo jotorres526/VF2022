@@ -1,0 +1,91 @@
+
+module InsertionSortProgram
+
+  use  int.Int
+  use  list.List
+  use  list.Permut
+  use  list.SortedInt 
+  use  list.Length
+
+
+  let rec function insert (i: int) (l: list int) : list int
+    requires { sorted l } 
+    ensures { sorted result } 
+    ensures { permut result (Cons i l) } 
+    =
+    match l with
+    | Nil -> Cons i Nil
+    | Cons h t -> if i <= h then Cons i l 
+                            else Cons h (insert i t)
+  end
+
+
+  let rec function iSort (l: list int) : list int
+    ensures { sorted result } 
+    ensures { permut result l } 
+    =
+    match l with 
+    | Nil -> Nil
+    | Cons h t -> insert h (iSort t ) 
+  end
+
+
+  predicate is_a_sorting_algorithm (f: list int -> list int) = 
+    forall al :list int. permut al (f al) /\ sorted (f al)
+
+  goal insertion_sort_correct: is_a_sorting_algorithm iSort
+
+end
+
+
+
+(* 
+
+A definição acima usa "let functions": funções de programa, mas que, sendo puras, podem ser usadas ao nível lógico. A que se segue usa funções de programa não declaradas como "function" (apesar de não terem efeitos laterais.
+
+* Na de cima é possível escrever o lema insertion_sort_correct, mas não na de baixo -- não é possível escrever lemas sobre uma função de programa que não seja "function"
+
+* Nas "function" a prova de terminação é automática; nas funções de programa não declaradas como "function", é necessário fornecer um variante que permita estabelecer a terminação (serão geradas VCs para isso)
+
+* Na verdade, tratando-se de exemplificar verificação de *programas funcionais*, não há razão para não utilizar sempre "function"
+
+*)
+
+
+
+
+module InsertionSortProgramNofunct
+
+  use  int.Int
+  use  list.List
+  use  list.Permut
+  use  list.SortedInt 
+  use  list.Length
+
+
+let rec insert (i: int) (l: list int) : list int
+    requires { sorted l } 
+    ensures { sorted result } 
+    ensures { permut result (Cons i l) } 
+    variant { length l }
+    =
+    match l with
+    | Nil -> Cons i Nil
+    | Cons h t -> if i <= h then Cons i l 
+                            else Cons h (insert i t)
+    end
+
+
+let rec iSort (l: list int) : list int
+    ensures { sorted result } 
+    ensures { permut result l } 
+    variant { length l }
+    =
+    match l with 
+    | Nil -> Nil
+    | Cons h t -> insert h (iSort t ) 
+    end
+
+
+end
+

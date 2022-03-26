@@ -1,0 +1,62 @@
+
+
+module Bintree_insert
+
+  use  int.Int
+
+     
+
+  type tree 'a = Empty | Node (tree 'a) 'a (tree 'a)
+                                     
+
+  function size (t : tree int) : int =
+    (*{ensures result >= 0}*)
+    match t with
+    | Empty -> 0
+    | Node t1 x t2 -> 1 + size t1 + size t2
+    end
+
+  predicate memt (t: tree int) (k:int) =
+    match t with
+    | Empty -> false 
+    | Node t1 x t2 -> (k = x) \/ memt t1 k \/ memt t2 k
+
+
+  let rec predicate leq_tree (x : int) (t : tree int)
+    (*Ter redundancia pode ser benefico*)
+    ensures { result <-> forall k : int. not (memt t k) \/ k <= x }
+    match t with
+    | Empty -> true
+    | Node t1 k t2 -> k <= x && leq_tree x t1 && leq_tree x t2
+
+  let rec predicate geq_tree (x : int) (t : tree int)
+    ensures { result <-> forall k : int. not (memt t k) \/ k >= x}
+    match t with
+    | Empty -> true
+    | Node t1 k t2 -> k >= x && geq_tree x t1 && geq_tree x t2
+
+  let rec function sortedBT (t : tree int) : bool = 
+    match t with
+    | Empty -> True
+    | Node (Node tl1 l tl2) x (Node tr1 r tr2) ->
+
+
+  let rec function add (t : tree int) (v : int) : tree int =
+    requires { sortedBT t }
+    ensures  { sortedBT result }
+    ensures  { size result = size t + 1 } 
+    ensures  { forall x : int. memt result x <-> (memt t x \/ x = v) }
+    ensures  { forall x : int. num_occ x result =
+                               if x = v then 1 + num_occ x t else num_occ x t }
+    (* variant { t } *)
+    match t with
+     | Empty -> Node (Empty) v (Empty)
+     | Node t1 x t2 ->
+       if v <= x then Node (add t1 v) x t2 else Node t1 x (add t2 v)
+    end
+
+
+
+               
+end
+

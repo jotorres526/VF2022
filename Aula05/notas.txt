@@ -1,0 +1,42 @@
+Verificação de programas funcionais
+
+Funcional -> nao ha ciclos -> nao ha invariantes
+Temos de inferir indutivamente
+Podemos dar redundancia as nossas verificaçoes de forma a tornar as coisas mais eficientes
+why3 replay --smoke-detector=top mergeSortProgram
+
+
+                      x<=y       sorted(y:l)
+--------------      ----------------------------
+  sorted nil               sorted(x:y:l)
+
+
+Nivel ling. logica:
+    - Serve como especificação
+    - Como se prova insertion sort no why3
+        - selecionar node insert_sorted e insert_perm
+        - escrever na linha de comando induction_ty_lex (induçao estrutural?)
+        - se usar 'S' da split em dois goals(lista vazia e a lista h:t)
+        - o resto prova automaticamente facilmente, através de SMT solvers
+
+Nivel ling. programação:
+    - Permite exportar codigo
+    - Foi totalmente automatico 
+    - Os programas podem ser puros ou impuros (se alteram ou nao o estado global)
+        - Se for puro, podemos usar estas funções no nível lógico
+        - declarar com keyword function
+    - tem ghost functions (read about it)
+
+
+mergesort:
+    - se quiser provar sobre O(nlogn) tenho de adicionar uma pos condiçao q as listas sao metade da original
+    - Provar o mergesort em Coq é complicado pois o Coq nao gera o padrao de induçao automatica, pois a recursao desta função nao é trivial (é duplamente recursiva)
+        - ex de padrao simples: listas (nil e h:t)
+        - no why3 é possivel pq tem um cheat op
+            - lemma function
+
+
+Sistemas distribuidos:
+    - Leader election
+    - Não há dois nós q se proclamem leader 
+    - invariante do sistema como um todo

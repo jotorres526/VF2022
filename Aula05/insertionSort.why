@@ -1,0 +1,134 @@
+theory InsertionSort
+
+  use int.Int
+  use list.List
+  use list.Permut
+
+  (* clone list.Sorted with type t=int *)
+  use list.SortedInt
+
+
+
+  function insert (i :int) (l :list int) : list int =
+    match l with
+    | Nil      -> Cons i Nil
+    | Cons h t -> if i <= h then Cons i (Cons h t)
+                          else Cons h (insert i t)
+    end
+
+  function iSort (l :list int) : list int =
+    match l with
+    | Nil      -> Nil
+    | Cons h t -> insert h (iSort t)
+    end
+
+  lemma insert_sorted: forall a :int, l :list int. 
+                     sorted l -> sorted (insert a l)
+
+  lemma insert_perm: forall x :int, l :list int.
+                    permut (Cons x l) (insert x l)
+
+  lemma sort_sorted: forall l :list int.
+                    sorted (iSort l)
+
+  lemma sort_perm: forall l :list int.
+                   permut l (iSort l)
+
+
+  predicate is_a_sorting_algorithm (f: list int -> list int) =
+    forall al :list int. permut al (f al) /\ sorted (f al)
+
+  goal insertion_sort_correct: is_a_sorting_algorithm iSort
+
+
+
+end
+
+
+
+(*
+
+The above lemmas can be proved using inductive proof transformations.
+This means that the structure of the proofs is not kept in the Why3 source files: it is stored in the proof state / folder. Moreover, inductive transformations will inly work for simple "structural" proofs. 
+
+The approach below is based on lemma functions: program functions are used to write the inductive structure of proofs, and the lemmas being proved correspond to the contracts of these program functions. It is a unique symbiosis between the program and logic levels of Why3. 
+
+*)
+
+
+
+
+theory InsertionSort_LF
+
+  use int.Int
+  use list.List
+  use list.Permut
+  use list.SortedInt
+  use list.Length
+
+
+
+  predicate is_a_sorting_algorithm (f: list int -> list int) =
+    forall al :list int. permut al (f al) /\ sorted (f al)
+
+  function insert (i :int) (l :list int) : list int =
+    match l with
+    | Nil      -> Cons i Nil
+    | Cons h t -> if i <= h then Cons i (Cons h t)
+                            else Cons h (insert i t)
+    end
+
+  function iSort (l :list int) : list int =
+    match l with
+    | Nil      -> Nil
+    | Cons h t -> insert h (iSort t)
+    end
+
+
+
+  let rec lemma insert_sorted (i :int) (l :list int) : unit 
+    requires { sorted l }
+    ensures { sorted (insert i l) }
+    variant { length l }
+  =
+    match l with
+    | Nil      -> ()
+    | Cons h t -> if i <= h then ()
+                  else insert_sorted i t
+  end
+
+
+  let rec lemma sort_sorted (l :list int) : unit 
+    ensures { sorted (iSort l) }
+  =
+    match l with
+    | Nil      -> ()
+    | Cons _ t ->  sort_sorted t
+    end
+
+  let rec lemma insert_perm (i :int) (l :list int)
+    ensures { permut (Cons i l) (insert i l) }
+  =
+    match l with
+    | Nil      -> ()
+    | Cons h t -> if i <= h then ()
+                            else insert_perm i t
+   end
+
+  let rec lemma sort_perm (l :list int) 
+    ensures { permut l (iSort l) }
+  =
+    match l with
+    | Nil      -> ()
+    | Cons _ t ->  sort_perm t
+    end
+
+
+
+
+  goal insertion_sort_correct: is_a_sorting_algorithm iSort
+
+
+end
+
+

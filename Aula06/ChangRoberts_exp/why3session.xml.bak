@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="6">
+<prover id="0" name="Alt-Ergo" version="2.4.0" timelimit="1" steplimit="0" memlimit="1000"/>
+<prover id="1" name="CVC4" version="1.8" timelimit="1" steplimit="0" memlimit="1000"/>
+<prover id="2" name="Z3" version="4.8.6" timelimit="1" steplimit="0" memlimit="1000"/>
+<file format="whyml" proved="true">
+<path name=".."/><path name="ChangRoberts_exp.mlw"/>
+<theory name="LeaderElectRing" proved="true">
+ <goal name="next&#39;vc" expl="VC for next" proved="true">
+ <proof prover="2"><result status="valid" time="0.03" steps="2369"/></proof>
+ </goal>
+ <goal name="maxId_fn&#39;vc" expl="VC for maxId_fn" proved="true">
+ <proof prover="2"><result status="valid" time="0.03" steps="36671"/></proof>
+ </goal>
+ <goal name="btw_next_lm" proved="true">
+ <proof prover="2"><result status="valid" time="0.04" steps="65400"/></proof>
+ </goal>
+ <goal name="initMsgs_fn&#39;vc" expl="VC for initMsgs_fn" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="initMsgs_fn&#39;vc.0" expl="variant decrease" proved="true">
+  <proof prover="2"><result status="valid" time="0.03" steps="18392"/></proof>
+  </goal>
+  <goal name="initMsgs_fn&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.03" steps="35591"/></proof>
+  </goal>
+  <goal name="initMsgs_fn&#39;vc.2" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="initMsgs_fn&#39;vc.2.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.05" steps="102770"/></proof>
+   </goal>
+   <goal name="initMsgs_fn&#39;vc.2.1" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.07" steps="147437"/></proof>
+   </goal>
+   <goal name="initMsgs_fn&#39;vc.2.2" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.05" steps="78214"/></proof>
+   </goal>
+   <goal name="initMsgs_fn&#39;vc.2.3" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.06" steps="80142"/></proof>
+   </goal>
+   <goal name="initMsgs_fn&#39;vc.2.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.38" steps="19168"/></proof>
+   </goal>
+   <goal name="initMsgs_fn&#39;vc.2.5" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.52" steps="1998692"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="indpred&#39;vc" expl="VC for indpred" proved="true">
+ <proof prover="2"><result status="valid" time="0.19" steps="251374"/></proof>
+ </goal>
+ <goal name="remove_one&#39;vc" expl="VC for remove_one" proved="true">
+ <proof prover="1"><result status="valid" time="0.13" steps="21574"/></proof>
+ </goal>
+ <goal name="handleMsg&#39;vc" expl="VC for handleMsg" proved="true">
+ <transf name="unfold" proved="true" arg1="indpred">
+  <goal name="handleMsg&#39;vc.0" expl="VC for handleMsg" proved="true">
+  <transf name="unfold" proved="true" arg1="inv">
+   <goal name="handleMsg&#39;vc.0.0" expl="VC for handleMsg" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="handleMsg&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <proof prover="1" timelimit="5"><result status="valid" time="2.68" steps="123906"/></proof>
+    </goal>
+    <goal name="handleMsg&#39;vc.0.0.1" expl="postcondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="handleMsg&#39;vc.0.0.1.0" expl="postcondition" proved="true">
+     <proof prover="0"><result status="valid" time="1.06" steps="12025"/></proof>
+     </goal>
+     <goal name="handleMsg&#39;vc.0.0.1.1" expl="postcondition" proved="true">
+     <proof prover="0"><result status="valid" time="0.56" steps="6295"/></proof>
+     </goal>
+     <goal name="handleMsg&#39;vc.0.0.1.2" expl="postcondition" proved="true">
+     <proof prover="0"><result status="valid" time="0.52" steps="5712"/></proof>
+     </goal>
+     <goal name="handleMsg&#39;vc.0.0.1.3" expl="postcondition" proved="true">
+     <proof prover="0" timelimit="600" memlimit="5000"><result status="valid" time="20.69" steps="319466"/></proof>
+     </goal>
+     <goal name="handleMsg&#39;vc.0.0.1.4" expl="postcondition" proved="true">
+     <transf name="inline_goal" proved="true" >
+      <goal name="handleMsg&#39;vc.0.0.1.4.0" expl="postcondition" proved="true">
+      <transf name="split_all_full" proved="true" >
+       <goal name="handleMsg&#39;vc.0.0.1.4.0.0" expl="postcondition" proved="true">
+       <proof prover="0" timelimit="600" memlimit="5000"><result status="valid" time="101.95" steps="1765627"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="handleMsg&#39;vc.0.0.1.5" expl="postcondition" proved="true">
+     <proof prover="0"><result status="valid" time="0.04" steps="435"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="handleMsg&#39;vc.0.0.2" expl="postcondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.26" steps="39307"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="indpred_step" proved="true">
+ <proof prover="0"><result status="valid" time="0.03" steps="248"/></proof>
+ </goal>
+ <goal name="indpred_manySteps" proved="true">
+ <transf name="induction_pr" proved="true" >
+  <goal name="indpred_manySteps.0" proved="true">
+  <proof prover="2" timelimit="5"><result status="valid" time="0.04" steps="63450"/></proof>
+  </goal>
+  <goal name="indpred_manySteps.1" proved="true">
+  <proof prover="2" timelimit="5"><result status="valid" time="0.04" steps="68971"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="indpred_reachable" proved="true">
+ <proof prover="2"><result status="valid" time="0.04" steps="66533"/></proof>
+ </goal>
+ <goal name="uniqueLeader" proved="true">
+ <proof prover="2"><result status="valid" time="0.07" steps="161432"/></proof>
+ </goal>
+</theory>
+</file>
+</why3session>

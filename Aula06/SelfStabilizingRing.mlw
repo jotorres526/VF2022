@@ -1,0 +1,31 @@
+(*
+Regras: 
+    - para todos os nodos exceto o 0 copia o estado do antecessor
+*)
+
+module SelfStabilizingRing
+
+    type node = int
+    val constant n_nodes : int
+    axiom n_nodes_ax : 3 <= n_nodes
+
+    let predicate valid_node (n:node) = 0 <= n < n_nodes
+
+    (*Nodes*)
+    type state = int
+    val constant k_states : int
+    axiom k_states_lower_bound : n_nodes < k_states 
+    (*Can't have unique states*)
+
+    type world : map node state
+    predicate has_token(lS:world) (i:node) !=
+        (i = 0 /\ lS i = lS (n_nodes - 1))
+        \/
+        (i > 0 /\ i < n_nodes /\ lS i <> ls (i-1))
+
+    
+    (*Separar haver 1 token por, haver pelo menos um token e no máximo existir 1 token*)
+
+
+
+end

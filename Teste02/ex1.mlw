@@ -1,0 +1,15 @@
+module EuclideanAlgorithm
+  use import int.Int
+  use import int.EuclideanDivision
+  use import ref.Refint
+  use import number.Gcd
+
+  let rec euclid(u v:int) : int
+    requires {u - v > 0}
+    requires {v - u > 0}
+    ensures {1 <= result <= u \/ 1 <= result <= v}
+  = 
+    if u = v then u
+    else if u > v then euclid u (v-u)
+         else euclid (u-v) v
+  end

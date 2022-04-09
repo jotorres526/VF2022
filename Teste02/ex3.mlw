@@ -1,0 +1,17 @@
+module NumOf
+  use import int.Int
+  use import array.Array
+
+  let rec function numof (a: array int) (x: int) (k: int) (l: int)
+    requires {0 <= k < l /\ k < l <=length a}
+    requires {length a > 0}
+    ensures {0 <= result <= l-k}
+    variant {l - k}
+  = 
+    if k = (l-1) then
+      if x = a[k] then 1 else 0
+    else 
+      if x = a[k] then 1 + numof a x (k+1) l
+      else numof a x (k+1) l
+    end
+  

@@ -1,0 +1,26 @@
+module MostFreq
+
+  use int.Int
+  use ref.Refint
+  use array.Array
+  use array.NumOfEq
+  use array.IntArraySorted
+  
+  let most_frequent (a : array int) : int
+    requires {sorted a}
+    requires {length a > 0}
+    ensures {numof a result 0 (length a) <= length a}
+  = 
+    let ref r = a[0] in
+    let ref c = 1 in 
+    let ref m = 1 in
+    for i = 1 to length a - 1 do
+      invariant {1 <= c <= m /\ 1 <= m <= i}
+      if a[i] = a[i-1] then begin
+        incr c;
+        if c > m then begin m <- c; r <- a[i] end
+      end else
+        c <- 1
+    done;
+    r
+  end 
